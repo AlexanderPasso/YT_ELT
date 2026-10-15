@@ -6,8 +6,8 @@ from datetime import date
 
 load_dotenv(dotenv_path='./.env')
 API_KEY = os.getenv("API_KEY")
+CHENNEL_HANDLE = os.getenv("CHENNEL_HANDLE")
 PART = 'contentDetails'
-CHENNEL_HANDLE = 'MrBeast'
 MAX_RESULT = 50
 PLAY_LIST_ID = "UUX6OQ3DkcsbYNE6H8uQQuVA"
 
