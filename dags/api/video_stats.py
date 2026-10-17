@@ -4,6 +4,9 @@ import os
 from dotenv import load_dotenv
 from datetime import date
 
+from airflow.decorators import task
+from airflow.models import Variable
+
 load_dotenv(dotenv_path='./.env')
 API_KEY = os.getenv("API_KEY")
 CHENNEL_HANDLE = os.getenv("CHENNEL_HANDLE")
@@ -13,6 +16,7 @@ PLAY_LIST_ID = "UUX6OQ3DkcsbYNE6H8uQQuVA"
 
 #Codigo para obtener el ID de la lista de reproducción
 
+@task
 def get_playlist_id():
 
     try:
@@ -30,8 +34,7 @@ def get_playlist_id():
     except requests.exceptions.RequestException as e:
         raise e
 
-
-
+@task
 def get_video_ids(playlistId):
     video_ids = []
     pageToken = None
@@ -59,12 +62,12 @@ def get_video_ids(playlistId):
     except requests.exceptions.RequestException as e:
         raise e
 
+@task
 def batch_list(video_id_lst, batch_size):
     for video_id in range(0, len(video_id_lst), batch_size):
         yield video_id_lst[video_id: video_id + batch_size]
 
-
-
+@task
 def extract_video_date(video_ids):
     extracted_data = []
 
@@ -105,6 +108,7 @@ def extract_video_date(video_ids):
     except requests.exceptions.RequestException as e:
         raise e
 
+@task
 def save_to_json(extracted_data):
     file_path = f"./data/YT_data_{date.today()}.json"
 
