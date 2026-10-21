@@ -2,6 +2,7 @@ from airflow import DAG
 import pendulum
 from datetime import datetime, timedelta
 from api.video_stats import get_playlist_id, get_video_ids, extract_video_date, save_to_json
+from datawarehouse.dwh import staging_table, core_table
 
 #Local timezone
 
@@ -37,3 +38,20 @@ with DAG(
 
     #Define dependencias
     playlist_id >> video_ids >> extract_data >> save_to_json_task
+
+
+
+with DAG(
+    dag_id = "update_db",
+    default_args = default_args,
+    description = "DAG to process json file and insert data bioth staging and core schemas",
+    schedule = "0 15 * * *",  #Ejecuta a las 14 horas
+    catchup = False, #No se pone al dia con dag perdidos
+) as dag:
+
+    #Define task
+    update_staging = staging_table()
+    update_core = core_table()
+ 
+    #Define dependencias
+    update_staging >> update_core 

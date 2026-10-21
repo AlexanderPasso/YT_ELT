@@ -1,13 +1,13 @@
 from airflow.providers.postgres.hooks.postgres import PostgresHook
-from pyscopg2.extras import RealDictCursor
+from psycopg2.extras import RealDictCursor
 
 table = "yt_api"
 
 
-def get_conn_Cursor():
+def get_conn_cursor():
     hook = PostgresHook(postgres_conn_id="postgres_db_yt_elt", database="elt_db")
     conn = hook.get_conn()
-    cur = conn.cursor(cursfor_factory=RealDictCursor)
+    cur = conn.cursor(cursor_factory=RealDictCursor)
 
     #cur.execute("SELECT * FROM")
     return conn,cur
@@ -18,17 +18,17 @@ def close_conn_cursor(conn,cur):
 
 
 def create_schema(schema):
-    conn, cur =  get_conn_Cursor()
-    schema_sql = F"CREATE SCHEMA IF NO EXISTS {schema};"
+    conn, cur =  get_conn_cursor()
+    schema_sql = F"CREATE SCHEMA IF NOT EXISTS {schema};"
     cur.execute(schema_sql)
     conn.commit()
     close_conn_cursor(conn,cur)
 
 def create_table(schema):
-    conn, cur =  get_conn_Cursor()
+    conn, cur =  get_conn_cursor()
     if schema == "staging":
         table_sql = f"""
-                CREATE TABLE IF NO EXISTS {schema}.{table}(
+                CREATE TABLE IF NOT EXISTS {schema}.{table}(
                     "Video_ID" VARCHAR(11) PRIMARY KEY NOT NULL,
                     "Video_Title" TEXT NOT NULL,
                     "Upload_Date" TIMESTAMP NOT NULL,
@@ -40,7 +40,7 @@ def create_table(schema):
             """
     else:
         table_sql = f"""
-                    CREATE TABLE IF NO EXISTS {schema}.{table}(
+                    CREATE TABLE IF NOT EXISTS {schema}.{table}(
                         "Video_ID" VARCHAR(11) PRIMARY KEY NOT NULL,
                         "Video_Title" TEXT NOT NULL,
                         "Upload_Date" TIMESTAMP NOT NULL,
