@@ -1,5 +1,5 @@
-from airflow import DAG
-import pendulum
+from airflow import DAG # type: ignore
+import pendulum # type: ignore
 from datetime import datetime, timedelta
 from api.video_stats import get_playlist_id, get_video_ids, extract_video_date, save_to_json
 from datawarehouse.dwh import staging_table, core_table

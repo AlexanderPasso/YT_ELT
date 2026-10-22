@@ -1,5 +1,5 @@
-from airflow.providers.postgres.hooks.postgres import PostgresHook
-from psycopg2.extras import RealDictCursor
+from airflow.providers.postgres.hooks.postgres import PostgresHook # type: ignore
+from psycopg2.extras import RealDictCursor # type: ignore
 
 table = "yt_api"
 
