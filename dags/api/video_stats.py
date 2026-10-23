@@ -4,8 +4,8 @@ import os
 from dotenv import load_dotenv
 from datetime import date
 
-from airflow.decorators import task
-from airflow.models import Variable
+from airflow.decorators import task # type: ignore
+from airflow.models import Variable # type: ignore
 
 load_dotenv(dotenv_path='./.env')
 API_KEY = os.getenv("API_KEY")
