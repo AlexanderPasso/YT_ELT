@@ -67,7 +67,7 @@ with DAG(
     )
     
     #Define dependencias
-    update_staging >> update_core >> trigger_data_quality
+    update_staging >> update_core >> trigger_data_quality 
 
 with DAG(
     dag_id = "data_quality",
