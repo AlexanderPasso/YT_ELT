@@ -75,7 +75,7 @@ with DAG(
     description = "DAG to check the data quality on both layers in the db",
     schedule = None,  #Ejecuta a las 14 horas
     catchup = False, #No se pone al dia con dag perdidos
-) as dag_data_quality:
+) as dag_data_quality: 
 
     #Define task
     soda_validate_staging = yt_elt_data_quality(staging_schema)
