@@ -31,7 +31,7 @@ with DAG(
     dag_id = "produce_json",
     default_args = default_args,
     description = "DAG to produce JSON file with raw data",
-    schedule = "0 12 * * *",  #Ejecuta a las 14 horas
+    schedule = "0 13 * * *",  #Ejecuta a las 14 horas
     catchup = False, #No se pone al dia con dag perdidos
 ) as dag_produce:
 

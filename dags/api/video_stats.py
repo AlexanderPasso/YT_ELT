@@ -7,9 +7,9 @@ from datetime import date
 from airflow.decorators import task # type: ignore
 from airflow.models import Variable # type: ignore
 
-load_dotenv(dotenv_path='./.env')
-API_KEY = os.getenv("API_KEY")
-CHENNEL_HANDLE = os.getenv("CHENNEL_HANDLE")
+#load_dotenv(dotenv_path='./.env')
+API_KEY = Variable.get("API_KEY")
+CHENNEL_HANDLE = Variable.get("CHANNEL_HANDLE")
 PART = 'contentDetails'
 MAX_RESULT = 50
 PLAY_LIST_ID = "UUX6OQ3DkcsbYNE6H8uQQuVA"
