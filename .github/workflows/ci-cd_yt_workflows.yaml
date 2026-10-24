@@ -118,6 +118,12 @@ jobs:
         if: steps.changed-files-tests.outputs.any_changed == 'true' || github.event_name == 'workflow_dispatch'
         run: |
           docker compose ps -a
+      - name: Verify Airflow worker variables
+        run: |
+          docker exec airflow-worker python -c \
+            "import os; print('API_KEY configurada:', bool(os.getenv('AIRFLOW_VAR_API_KEY')))"
+          docker exec airflow-worker python -c \
+            "import os; print('CHANNEL_HANDLE configurado:', bool(os.getenv('AIRFLOW_VAR_CHANNEL_HANDLE')))"
 
       - name: Run Unit and Integration Tests
         if: steps.changed-files-tests.outputs.any_changed == 'true' || github.event_name == 'workflow_dispatch'
